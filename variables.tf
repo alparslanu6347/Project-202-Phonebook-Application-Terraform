@@ -27,3 +27,15 @@ variable "instance_name" {
   type        = string
   default     = "arrow_phonebook_instance"
 }
+
+variable "git-name" {
+  default = "alparslanu6347"
+}
+
+variable "git-token" {
+  default = "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"
+}
+variable "hosted-zone" {
+  default = "devopsalparslanugurer.com"
+}
+

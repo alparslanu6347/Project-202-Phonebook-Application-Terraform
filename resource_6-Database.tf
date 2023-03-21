@@ -11,14 +11,23 @@ resource "aws_db_instance" "webserver-db" {
   engine_version              = "8.0.28"
   username                    = "admin"
   password                    = "arrow123456"
-  publicly_accessible         = true
   monitoring_interval         = 0
-  port                        = 3306
   multi_az                    = false
+  port                        = 3306
+  publicly_accessible         = true
   skip_final_snapshot         = true
 
 }
 
+
+resource "github_repository_file" "webserver-db_endpoint" {
+  content             = aws_db_instance.webserver-db.address
+  file                = "dbserver.endpoint"
+  repository          = "Project-202-Phonebook-Application-Terraform"
+  overwrite_on_create = true
+  branch              = "main"
+  depends_on          = [aws_db_instance.webserver-db]
+}
 
 
 

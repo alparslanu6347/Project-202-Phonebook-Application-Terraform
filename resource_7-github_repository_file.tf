@@ -4,7 +4,6 @@ resource "github_repository_file" "webserver-db_endpoint" {
   repository          = "Project-202-Phonebook-Application-Terraform"
   overwrite_on_create = true
   branch              = "main"
-  depends_on          = [aws_db_instance.webserver-db]
 }
 
 
