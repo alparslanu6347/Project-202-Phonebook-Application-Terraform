@@ -1,5 +1,4 @@
 # Project-202 : Phonebook Application (Python Flask) deployed on AWS Application Load Balancer with Auto Scaling and Relational Database Service using Terraform
- ### Project-004 Phonebook Application was converted into Project-202-Phonebook-Application-Terraform ###
 
 ## Description
 
@@ -111,7 +110,9 @@ thousand                         Warning -> 'Invalid input: Phone number should 
 
   - Phonebook Application Website URL should be given as output by Terraform, after the resources created.
 
-## Project Skeleton 
+## Project Skeleton
+
+![Phonebook graphviz.png picture as skeleton](./graphviz.png)
 
 ```text
 002-tf-phonebook-web-application (folder)
