@@ -3,6 +3,7 @@
 ## Description
 
 The Phonebook Application aims to create a phonebook application in Python and deployed as a web application with Flask on AWS Application Load Balancer with Auto Scaling Group of Elastic Compute Cloud (EC2) Instances and Relational Database Service (RDS) using Terraform.
+"Added Route 53"
 
 ## Problem Statement
 
@@ -110,9 +111,8 @@ thousand                         Warning -> 'Invalid input: Phone number should 
 
   - Phonebook Application Website URL should be given as output by Terraform, after the resources created.
 
-## Project Skeleton
-
-![Phonebook graphviz.png picture as skeleton](./graphviz.png)
+## Project Skeleton 
+![Phonebook graphviz picture](./graphviz.png)
 
 ```text
 002-tf-phonebook-web-application (folder)
