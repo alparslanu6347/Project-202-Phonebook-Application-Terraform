@@ -1,16 +1,16 @@
 variable "git-name" {
-  default = "**********"    # write your github username
+  default = "alparslanu6347"
 }
 
 variable "git-token" {
-  default = "********************"    # write your github-token
+  default = "***********************"   # write you TOKEN
 }
 
 variable "key-name" {
-  default = "******"   # write your key-name
+  default = "arrow"   # write your key
 }
 
 variable "hosted-zone" {
-  default = "*************"  # write your hosted-zone
+  default = "devopsalparslanugurer.com" # write your hosted zone
 }
 

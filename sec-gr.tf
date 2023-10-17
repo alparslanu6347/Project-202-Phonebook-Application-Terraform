@@ -1,3 +1,7 @@
+// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+// https://registry.terraform.io/providers/-/aws/latest/docs/resources/vpc_security_group_ingress_rule
+// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule
+
 resource "aws_security_group" "alb-sg" {
   name   = "ALBSecurityGroup"
   vpc_id = data.aws_vpc.selected.id
@@ -13,12 +17,11 @@ resource "aws_security_group" "alb-sg" {
 
   egress {
     from_port   = 0
-    protocol    = "-1"
+    protocol    = "-1"  // all
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
 
 
 resource "aws_security_group" "server-sg" {
@@ -44,13 +47,12 @@ resource "aws_security_group" "server-sg" {
 
   egress {
     from_port   = 0
-    protocol    = "-1"
+    protocol    = "-1"    
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
 
 }
-
 
 
 resource "aws_security_group" "db-sg" {

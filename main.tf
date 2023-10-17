@@ -7,37 +7,62 @@ data "aws_subnets" "pb-subnets" {
     name   = "vpc-id"
     values = [data.aws_vpc.selected.id]
   }
-  #   filter {
-  #   name = "tag:Name"
-  #   values = ["default*"]
-  # }
+
+    filter {
+    name = "tag:Name"
+    values = ["default*"]
+  }
 }
 
-data "aws_ami" "amazon-linux-2" {
+// https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
+// https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
+// https://docs.aws.amazon.com/linux/al2023/ug/ec2.html
+// https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-images.html
+data "aws_ami" "amazon-linux-2023" {
   owners      = ["amazon"]
   most_recent = true
   filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "owner-alias"
+    values = ["amazon"]
+  }
+
+  filter {
     name   = "name"
-    values = ["amzn2-ami-hvm*"]
+    values = ["al2023-ami-2023*"]
   }
 }
 
-data "template_file" "phonebook" {
-  template = file("user-data.sh")
+
+data "template_file" "phonebook" {  // https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file
+  template = file("userdata.sh")
   vars = {
-    user-data-git-token = var.git-token
-    user-data-git-name  = var.git-name
+    userdata-git-token = var.git-token   // TOKEN=${userdata-git-token} --> userdata.sh
+    userdata-git-name  = var.git-name    // USER=${userdata-git-name}   --> userdata.sh
   }
 }
 
+// https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file#rendered
+// https://developer.hashicorp.com/terraform/language/functions/base64encode
 resource "aws_launch_template" "asg-lt" {
   name = "phonebook-lt"
-
-  image_id               = data.aws_ami.amazon-linux-2.id
+  image_id               = data.aws_ami.amazon-linux-2023.id
   instance_type          = "t2.micro"
   key_name               = var.key-name
   vpc_security_group_ids = [aws_security_group.server-sg.id]
   user_data              = base64encode(data.template_file.phonebook.rendered)
+// https://developer.hashicorp.com/terraform/language/meta-arguments/depends_on
+// phonebook-app.py --line12-->> db_endpoint = open("/home/ec2-user/phonebook/dbserver.endpoint", 'r', encoding='UTF-8')
+// endpoint of dbserver -->> github_repository_file.dbendpoint (dbserver.endpoint) --->> home/ec2-user
   depends_on             = [github_repository_file.dbendpoint]
   tag_specifications {
     resource_type = "instance"
@@ -116,10 +141,11 @@ resource "aws_db_instance" "db-server" {
 
 }
 
+// https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_file
 resource "github_repository_file" "dbendpoint" {
-  content             = aws_db_instance.db-server.address
-  file                = "dbserver.endpoint"
-  repository          = "phonebook"     # change your repo name
+  content             = aws_db_instance.db-server.address   // it will return endpoint of dbserver
+  file                = "dbserver.endpoint"  
+  repository          = "phonebook"
   overwrite_on_create = true
   branch              = "main"
 }
