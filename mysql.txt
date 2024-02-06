@@ -1,8 +1,0 @@
-``````sql
-sudo yum install mysql
-mysql -u admin -p -h phonebook-app-db.cpzb4jp3x0uy.us-east-1.rds.amazonaws.com
-
-SHOW DATABASES;
-use phonebook;
-SHOW TABLES;
-SELECT * FROM phonebook;
