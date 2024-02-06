@@ -1,5 +1,5 @@
 variable "git-name" {
-  default = "alparslanu6347"
+  default = "**********"  # write your github username
 }
 
 variable "git-token" {
@@ -7,7 +7,7 @@ variable "git-token" {
 }
 
 variable "key-name" {
-  default = "arrow"   # write your key
+  default = "*******"   # write your key
 }
 
 variable "hosted-zone" {
