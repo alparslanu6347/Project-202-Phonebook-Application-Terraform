@@ -1,3 +1,29 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.0"
+    }
+  }
+}
+
+
+provider "aws" {
+  region = "us-east-1"
+  //  access_key = ""
+  //  secret_key = ""
+
+}
+
+provider "github" {
+  token = var.git-token
+}
+
+
 data "aws_vpc" "selected" {
   default = true
 }
@@ -189,4 +215,13 @@ resource "aws_route53_record" "phonebook" {
     zone_id                = aws_alb.app-lb.zone_id
     evaluate_target_health = true
   }
+}
+
+
+output "dns-name" {
+  value = "http://${aws_alb.app-lb.dns_name}"
+}
+
+output "websiteurl" {
+  value = aws_route53_record.phonebook.name
 }
